@@ -45,11 +45,6 @@ signal abs_3: std_logic_vector(8 downto 0);
 signal sum_01: std_logic_vector(9 downto 0);
 signal sum_23: std_logic_vector(9 downto 0);
 
---signal xori0: std_logic_vector(8 downto 0);
---signal xori1: std_logic_vector(8 downto 0);
---signal xori2: std_logic_vector(8 downto 0);
---signal xori3: std_logic_vector(8 downto 0); 
-
 signal sum_after_10: std_logic_vector(10 downto 0);
 
 begin 
@@ -59,25 +54,20 @@ neg_ref_1 <= std_logic_vector(resize(-signed(ref1),8));
 neg_ref_2 <= std_logic_vector(resize(-signed(ref2),8));
 neg_ref_3 <= std_logic_vector(resize(-signed(ref3),8));
 
---xori0 <= ori0(ori0'left) & ori0;
---xori1 <= ori0(ori1'left) & ori1;
---xori2 <= ori0(ori2'left) & ori2;
---xori3 <= ori0(ori3'left) & ori3;
+abs_0 <= std_logic_vector(abs(signed(sub_0)));
+abs_1 <= std_logic_vector(abs(signed(sub_1)));
+abs_2 <= std_logic_vector(abs(signed(sub_2)));
+abs_3 <= std_logic_vector(abs(signed(sub_3)));
 
 SUB0: adder generic map (8) port map (ori0,neg_ref_0,sub_0);
 SUB1: adder generic map (8) port map (ori1,neg_ref_1,sub_1);
 SUB2: adder generic map (8) port map (ori2,neg_ref_2,sub_2);
 SUB3: adder generic map (8) port map (ori3,neg_ref_3,sub_3);
 
-abs_0 <= std_logic_vector(abs(signed(sub_0)));
-abs_1 <= std_logic_vector(abs(signed(sub_1)));
-abs_2 <= std_logic_vector(abs(signed(sub_2)));
-abs_3 <= std_logic_vector(abs(signed(sub_3)));
+ADD00: adder generic map (9) port map (abs_0,abs_1,sum_01); 
+ADD01: adder generic map (9) port map (abs_2,abs_3,sum_23); 
 
-SUB4: adder generic map (9) port map (abs_0,abs_1,sum_01); 
-SUB5: adder generic map (9) port map (abs_2,abs_3,sum_23); 
-
-SUB6: adder generic map (10) port map (sum_01,sum_23,sum_after_10);
+ADD10: adder generic map (10) port map (sum_01,sum_23,sum_after_10);
 
 sad_out <= sum_after_10;
 

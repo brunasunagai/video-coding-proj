@@ -12,8 +12,14 @@ port(
 end adder;
 
 architecture arch_add of adder is
+
+signal xA, xB: std_logic_vector(N downto 0);
+
 begin 
 	
-	S <= A + B;
+	xA <= A(A'left) & A;
+	xB <= B(B'left) & B;
+	
+	S <= xA + xB;
 
 end arch_add;
